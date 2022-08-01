@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6a1f208bc1694bf99d20457709c817e9" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="HelpingHands.cause" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HelpingHands.donation" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HelpingHands.organization" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HelpingHands.user" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <AssociationConnector Association="HelpingHands.FK_donations_cause" ManuallyRouted="false" />
+        <AssociationConnector Association="HelpingHands.orgId" ManuallyRouted="false" />
+        <AssociationConnector Association="HelpingHands.FK_donations_organization" ManuallyRouted="false" />
+        <AssociationConnector Association="HelpingHands.FK_donations_user" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HelpingHands.sysdiagram" Width="1.5" PointX="5.375" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

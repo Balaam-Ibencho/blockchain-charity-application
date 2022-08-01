@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HelpingHands.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cause">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="goal" Type="int" Nullable="false" />
+          <Property Name="collected" Type="int" Nullable="false" />
+          <Property Name="orgId" Type="int" Nullable="false" />
+          <Property Name="hash" Type="int" />
+          <Property Name="isactive" Type="bit" Nullable="false" />
+          <Property Name="shortDescription" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="transactionhash" Type="varchar(max)" />
+          <Property Name="type" Type="varchar(max)" Nullable="false" />
+          <Property Name="longDescription" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="donations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="orgId" Type="int" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="causeId" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="transactionhash" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="street" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="city" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="state" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="country" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="hash" Type="int" />
+          <Property Name="type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="regno" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fcra" Type="nvarchar(max)" />
+          <Property Name="website" Type="nvarchar(max)" />
+          <Property Name="contact" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="regcerti" Type="varchar(max)" />
+          <Property Name="description" Type="varchar(max)" Nullable="false" />
+          <Property Name="transactionhash" Type="varchar(max)" />
+          <Property Name="profilepic" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="fname" Type="varchar(max)" Nullable="false" />
+          <Property Name="lname" Type="varchar(max)" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="dob" Type="date" Nullable="false" />
+          <Property Name="contact" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="state" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="country" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="hash" Type="int" />
+          <Property Name="transactionhash" Type="varchar(max)" />
+          <Property Name="profilepic" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_donations_cause">
+          <End Role="cause" Type="Self.cause" Multiplicity="1" />
+          <End Role="donations" Type="Self.donations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cause">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="donations">
+              <PropertyRef Name="causeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_donations_organization">
+          <End Role="organization" Type="Self.organization" Multiplicity="1" />
+          <End Role="donations" Type="Self.donations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="donations">
+              <PropertyRef Name="orgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_donations_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="donations" Type="Self.donations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="donations">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="orgId">
+          <End Role="organization" Type="Self.organization" Multiplicity="1" />
+          <End Role="cause" Type="Self.cause" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="cause">
+              <PropertyRef Name="orgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HelpingHandsStoreContainer">
+          <EntitySet Name="cause" EntityType="Self.cause" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="donations" EntityType="Self.donations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="organization" EntityType="Self.organization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_donations_cause" Association="Self.FK_donations_cause">
+            <End Role="cause" EntitySet="cause" />
+            <End Role="donations" EntitySet="donations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_donations_organization" Association="Self.FK_donations_organization">
+            <End Role="organization" EntitySet="organization" />
+            <End Role="donations" EntitySet="donations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_donations_user" Association="Self.FK_donations_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="donations" EntitySet="donations" />
+          </AssociationSet>
+          <AssociationSet Name="orgId" Association="Self.orgId">
+            <End Role="organization" EntitySet="organization" />
+            <End Role="cause" EntitySet="cause" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HelpingHands" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cause">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="goal" Type="Int32" Nullable="false" />
+          <Property Name="collected" Type="Int32" Nullable="false" />
+          <Property Name="orgId" Type="Int32" Nullable="false" />
+          <Property Name="hash" Type="Int32" />
+          <Property Name="isactive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="donations" Relationship="Self.FK_donations_cause" FromRole="cause" ToRole="donations" />
+          <NavigationProperty Name="organization" Relationship="Self.orgId" FromRole="cause" ToRole="organization" />
+          <Property Name="transactionhash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="shortDescription" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="longDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="donation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="orgId" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="causeId" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="cause" Relationship="Self.FK_donations_cause" FromRole="donations" ToRole="cause" />
+          <NavigationProperty Name="organization" Relationship="Self.FK_donations_organization" FromRole="donations" ToRole="organization" />
+          <NavigationProperty Name="user" Relationship="Self.FK_donations_user" FromRole="donations" ToRole="user" />
+          <Property Name="transactionhash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="organization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="street" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="state" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="hash" Type="Int32" />
+          <Property Name="type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="regno" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fcra" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="causes" Relationship="Self.orgId" FromRole="organization" ToRole="cause" />
+          <NavigationProperty Name="donations" Relationship="Self.FK_donations_organization" FromRole="organization" ToRole="donations" />
+          <Property Name="regcerti" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="transactionhash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="profilepic" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="fname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="dob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="state" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="country" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="hash" Type="Int32" />
+          <NavigationProperty Name="donations" Relationship="Self.FK_donations_user" FromRole="user" ToRole="donations" />
+          <Property Name="transactionhash" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="profilepic" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_donations_cause">
+          <End Role="cause" Type="Self.cause" Multiplicity="1" />
+          <End Role="donations" Type="Self.donation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cause">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="donations">
+              <PropertyRef Name="causeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="orgId">
+          <End Role="organization" Type="Self.organization" Multiplicity="1" />
+          <End Role="cause" Type="Self.cause" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="cause">
+              <PropertyRef Name="orgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_donations_organization">
+          <End Role="organization" Type="Self.organization" Multiplicity="1" />
+          <End Role="donations" Type="Self.donation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="organization">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="donations">
+              <PropertyRef Name="orgId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_donations_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="donations" Type="Self.donation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="donations">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HelpingHandsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="causes" EntityType="Self.cause" />
+          <EntitySet Name="donations" EntityType="Self.donation" />
+          <EntitySet Name="organizations" EntityType="Self.organization" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_donations_cause" Association="Self.FK_donations_cause">
+            <End Role="cause" EntitySet="causes" />
+            <End Role="donations" EntitySet="donations" />
+          </AssociationSet>
+          <AssociationSet Name="orgId" Association="Self.orgId">
+            <End Role="organization" EntitySet="organizations" />
+            <End Role="cause" EntitySet="causes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_donations_organization" Association="Self.FK_donations_organization">
+            <End Role="organization" EntitySet="organizations" />
+            <End Role="donations" EntitySet="donations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_donations_user" Association="Self.FK_donations_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="donations" EntitySet="donations" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="HelpingHands.sysdiagram" />
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HelpingHandsStoreContainer" CdmEntityContainer="HelpingHandsEntities">
+          <EntitySetMapping Name="causes">
+            <EntityTypeMapping TypeName="HelpingHands.cause">
+              <MappingFragment StoreEntitySet="cause">
+                <ScalarProperty Name="longDescription" ColumnName="longDescription" />
+                <ScalarProperty Name="shortDescription" ColumnName="shortDescription" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="transactionhash" ColumnName="transactionhash" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="goal" ColumnName="goal" />
+                <ScalarProperty Name="collected" ColumnName="collected" />
+                <ScalarProperty Name="orgId" ColumnName="orgId" />
+                <ScalarProperty Name="hash" ColumnName="hash" />
+                <ScalarProperty Name="isactive" ColumnName="isactive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="donations">
+            <EntityTypeMapping TypeName="HelpingHands.donation">
+              <MappingFragment StoreEntitySet="donations">
+                <ScalarProperty Name="transactionhash" ColumnName="transactionhash" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="orgId" ColumnName="orgId" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="causeId" ColumnName="causeId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="organizations">
+            <EntityTypeMapping TypeName="HelpingHands.organization">
+              <MappingFragment StoreEntitySet="organization">
+                <ScalarProperty Name="profilepic" ColumnName="profilepic" />
+                <ScalarProperty Name="transactionhash" ColumnName="transactionhash" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="regcerti" ColumnName="regcerti" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="street" ColumnName="street" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="hash" ColumnName="hash" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="regno" ColumnName="regno" />
+                <ScalarProperty Name="fcra" ColumnName="fcra" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="HelpingHands.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="profilepic" ColumnName="profilepic" />
+                <ScalarProperty Name="transactionhash" ColumnName="transactionhash" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="hash" ColumnName="hash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HelpingHands.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
